@@ -1,0 +1,12 @@
+streamlit
+pandas
+numpy
+pyreadstat
+python-docx
+requests
+matplotlib
+scikit-learn
+shap
+xgboost
+lightgbm
+catboost
