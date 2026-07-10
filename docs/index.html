@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KNHANES + NHANES 연구 자동화 플랫폼</title>
+<style>
+:root{--ink:#26261f;--mut:#6b6b60;--line:#e2e0d6;--bg:#faf9f5;--accent:#0f6e56;--warn:#8a5a00}
+*{box-sizing:border-box}
+body{font-family:system-ui,'Segoe UI','Apple SD Gothic Neo',sans-serif;color:var(--ink);background:var(--bg);
+  margin:0;line-height:1.6}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+header{padding:56px 0 28px;border-bottom:1px solid var(--line)}
+h1{font-size:30px;margin:0 0 6px}
+.sub{color:var(--mut);font-size:16px}
+h2{font-size:20px;margin:34px 0 10px;border-bottom:2px solid var(--line);padding-bottom:6px}
+h3{font-size:15px;margin:18px 0 6px}
+p,li{font-size:15px}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+pre{background:#1e1e1a;color:#eee;padding:14px 16px;border-radius:8px;overflow:auto}
+code:not(pre code){background:#efeee7;padding:1px 6px;border-radius:4px}
+.tag{display:inline-block;background:#eaf3de;color:var(--accent);border-radius:999px;padding:3px 12px;font-size:13px;margin:2px 4px 2px 0}
+.warn{background:#fff6e6;border:1px solid #f0dcae;border-radius:10px;padding:14px 18px;margin:16px 0}
+.warn b{color:var(--warn)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:10px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.card h3{margin-top:0}
+.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:10px 18px;border-radius:8px;font-size:15px;margin:6px 8px 6px 0}
+.btn.alt{background:#fff;color:var(--ink);border:1px solid var(--line)}
+footer{color:var(--mut);font-size:13px;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:40px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>KNHANES + NHANES 연구 자동화 플랫폼</h1>
+<div class="sub">변수·정의를 고르면 설계가중 분석이 돌고, 역학·트렌드·ML 보고서가 Word로 자동 생성됩니다.</div>
+<div style="margin-top:16px">
+<a class="btn" href="sample_report.html">📄 샘플 리포트 보기</a>
+<a class="btn alt" href="#run">로컬 실행 방법</a>
+</div>
+</div></header>
+
+<main class="wrap">
+<div class="warn">
+<b>이 페이지는 소개용 정적 페이지입니다.</b> GitHub Pages는 Python·R·Streamlit을 실행하거나 로컬 SAS/XPT 데이터를
+읽지 못합니다. 따라서 분석 도구 자체는 <b>데이터가 있는 로컬/서버에서 실행</b>합니다. 데이터는 기기를 떠나지 않습니다.
+아래 <a href="sample_report.html">샘플 리포트</a>는 도구가 만들어내는 결과물의 예시입니다.
+</div>
+
+<h2>무엇을 하나</h2>
+<p>국민건강영양조사(KNHANES)와 미국 NHANES 원자료를 대상으로, 웹에서 노출·결과·보정·정의를 선택하면
+복합표본 설계가중 분석이 결정론적으로 수행되고 아래 산출물이 나옵니다.</p>
+<div class="grid">
+<div class="card"><h3>인터랙티브 분석</h3>모든 변수를 노출/결과로 선택. 연속형 결과는 선형 β, 이분형은 로지스틱 OR로 자동 전환. Table 1 + 연관성 + 논문 Word.</div>
+<div class="card"><h3>Trajectory</h3>결과를 정의하는 변수들의 연령별 설계가중 궤적.</div>
+<div class="card"><h3>역학 보고서</h3>Table 1~6, crude/adjusted OR, 하위군+상호작용, PSM·IPTW·AIPW·G-computation·TMLE, Love plot·VIF·RCS·E-value.</div>
+<div class="card"><h3>트렌드 보고서</h3>연도별 유병률·age-sex 표준화율·Projection·다구간 Joinpoint APC·음이항 예측.</div>
+<div class="card"><h3>ML 보고서</h3>16개 모델(XGBoost·LightGBM·CatBoost·HistGB 등) 튜닝·전체지표·ROC/PR·threshold·calibration·SHAP·PDP. 정보누출 자동 차단.</div>
+</div>
+
+<h2>조작적 정의 (논문 표준)</h2>
+<p>
+<span class="tag">당뇨 ADA</span><span class="tag">고혈압 JNC</span>
+<span class="tag">대사증후군 harmonized NCEP 3/5</span><span class="tag">이상지질혈증 다기준</span>
+<span class="tag">지방간 NAFLD-LFS · HSI · CAP</span><span class="tag">흡연·음주 never vs ever</span>
+</p>
+<p>보정변수는 노출·결과·정의성분·체격군집을 자동 제외해 과보정을 방지합니다. 통계는 R survey 설계가중이며,
+LLM은 보고서 문장만 작성하고 수치를 재계산하지 않습니다.</p>
+
+<h2 id="run">로컬 실행</h2>
+<h3>1. 설치</h3>
+<pre>git clone https://github.com/&lt;계정&gt;/&lt;저장소&gt;.git
+cd &lt;저장소&gt;
+pip install -r requirements.txt
+sudo apt-get install -y r-base r-cran-survey r-cran-jsonlite r-cran-rms r-cran-mass r-cran-sandwich</pre>
+<h3>2. 데이터 배치 (기기 밖으로 나가지 않음)</h3>
+<pre>./data/KNHANES/hn08_all.sas7bdat , hn08_dxa.sas7bdat , ...
+./data/NHANES/demo_j , alq_j , bmx_j ...   (.sas7bdat 또는 .XPT)</pre>
+<h3>3. 실행</h3>
+<pre>streamlit run factory_app.py
+# 원격/병원망이면 SSH 터널 후 브라우저 http://localhost:8501
+ssh -L 8501:localhost:8501 사용자@서버</pre>
+
+<h2>저장소</h2>
+<p><a class="btn alt" href="https://github.com/">GitHub 저장소</a> (코드 · 사용법). 데이터는 포함되지 않습니다.</p>
+</main>
+
+<footer><div class="wrap">
+모든 소견은 hypothesis-generating이며 외부 검증이 필요합니다. 통계는 결정론적 R survey 설계가중으로 계산됩니다.
+</div></footer>
+</body>
+</html>
