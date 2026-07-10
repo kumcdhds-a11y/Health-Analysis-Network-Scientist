@@ -3,7 +3,7 @@
 Select variables and operational definitions in a web UI; survey-weighted analyses run internally and
 **epidemiologic, trend, and machine-learning reports are generated as Word (.docx)**. Streamlit app.
 
-## ⚠️ It does NOT "run" on github.io (GitHub Pages) — important
+## It does NOT "run" on github.io (GitHub Pages) — important
 GitHub Pages is **static hosting** (HTML/JS/CSS only). It cannot execute Python/R/Streamlit or read local
 SAS/XPT files. So the interactive tool itself cannot run on github.io. For a research tool whose data is local:
 
